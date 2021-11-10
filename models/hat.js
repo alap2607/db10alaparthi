@@ -6,8 +6,8 @@ const hatSchema = mongoose.Schema({
         minlength: 4
 },
     type: {
-    type:String,
-    minLength:4
+        type:String,
+        minLength:4
 },
     price: {
         type: String,

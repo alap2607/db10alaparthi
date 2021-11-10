@@ -1,12 +1,13 @@
-var bakery = require('../models/hat');
-// List of all hats
+var hat = require('../models/hat');
+// List of all hat
 exports.hat_list = async function(req, res) {
     try{
         thehats = await hat.find();
         res.send(thehats);
     }
     catch(err){
-        res.error(500,`{"error": ${err}}`);
+        res.status(500)
+        res.send(`{"error": ${err}}`); 
     }
 //res.send('NOT IMPLEMENTED: hat list');
 };
@@ -15,7 +16,7 @@ exports.hat_list = async function(req, res) {
 exports.hat_detail = async function(req, res) {
     console.log("detail" + req.params.id)
     try {
-        result = await hat.findById( req.params.id)
+        result = await hat.findById(req.params.id)
         res.send(result)
     } 
     catch (error) {
@@ -32,7 +33,7 @@ exports.hat_create_post = async function (req, res) {
     // We are looking for a body, since POST does not have query parameters.
     // Even though bodies can be in many different formats, we will be picky
     // and require that it be a json object
-    // {"costumeItemname":"goat", "cost":12, "size":"large"}
+    // {"hat_name":"beret hat", "colour":"white", "price":"Thirty-four USD"}
     document.hat_name = req.body.hat_name;
     document.colour = req.body.colour;
     document.price = req.body.price;
@@ -49,7 +50,7 @@ exports.hat_create_post = async function (req, res) {
 exports.hat_delete = async function(req, res) {
     console.log("delete " + req.params.id)
     try {
-        result = await hat.findByIdAndDelete( req.params.id)
+        result = await hat.findByIdAndDelete(req.params.id)
         console.log("Removed " + result)
         res.send(result)
     } catch (err) {
@@ -58,20 +59,23 @@ exports.hat_delete = async function(req, res) {
     }
 };
 //Handle bakery update form on PUT.
-exports.hat_update_put = async function(req, res) {
-console.log(`update on id ${req.params.id} with body ${JSON.stringify(req.body)}`)
-try {
-    let toUpdate = await hat.findById( req.params.id)
-// Do updates of properties
-    if(req.body.hat_name) toUpdate.hat_name = req.body.hat_name;
-    if(req.body.colour) toUpdate.colour = req.body.colour;
-    if(req.body.price) toUpdate.price = req.body.price;
-    let result = await toUpdate.save();
-    console.log("Sucess " + result)
-    res.send(result)
-    } 
+exports.hat_update_put = async function (req, res) {
+    console.log(`update on id ${req.params.id} with body ${JSON.stringify(req.body)}`);
+    try {
+        let toUpdate = await hat.findById(req.params.id);
+        // Do updates of properties
+        if (req.body.hat_name)
+            toUpdate.hat_name = req.body.hat_name;
+        if (req.body.colour)
+            toUpdate.colour = req.body.colour;
+        if (req.body.price)
+            toUpdate.price = req.body.price;
+        let result = await toUpdate.save();
+        console.log("Sucess " + result);
+        res.send(result);
+    }
     catch (err) {
-        res.status(500)
+        res.status(500);
         res.send(`{"error": ${err}: Update for id ${req.params.id} failed`);
     }
 };
@@ -90,7 +94,7 @@ exports.hat_view_all_Page = async function (req, res) {
 };
 
 // Handle a show one view with id specified by query
-exports.bakery_view_one_Page = async function(req, res) {
+exports.hat_view_one_Page = async function(req, res) {
     console.log("single view for id "  + req.query.id)
     try{
         result = await hat.findById( req.query.id)
@@ -105,7 +109,7 @@ exports.bakery_view_one_Page = async function(req, res) {
 // Handle building the view for creating a costume.
 // No body, no in path parameter, no query.
 // Does not need to be async
-exports.bakery_create_Page = function(req, res) {
+exports.hat_create_Page = function(req, res) {
     console.log("create view")
     try{
         res.render('hatcreate', { title: 'hat Create'});

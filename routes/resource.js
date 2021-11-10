@@ -13,7 +13,7 @@ router.post('/hat', hat_controller.hat_create_post);
 router.delete('/hat/:id', hat_controller.hat_delete);
 // PUT request to update hat.
 router.put('/hat/:id', hat_controller.hat_update_put);
-// GET request for one bakery.
+// GET request for one hat.
 router.get('/hat/:id', hat_controller.hat_detail);
 // GET request for list of all hat items.
 router.get('/hat', hat_controller.hat_list);
