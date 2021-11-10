@@ -4,11 +4,44 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
+const connectionString =  process.env.MONGO_CON 
+mongoose = require('mongoose'); 
+mongoose.connect(connectionString, {useNewUrlParser: true, useUnifiedTopology: true}); 
+
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var hatRouter = require('./routes/hat');
 var addmodsRouter = require('./routes/addmods');
 var selectorRouter = require('./routes/selector');
+var hat = require("./models/hat"); 
+var resourceRouter = require('./routes/resource');
+
+// We can seed the collection if needed on server start
+async function recreateDB(){
+  // Delete everything
+  await hat.deleteMany();
+  let instance1 = new hat({hat_name:"Beret Hat", colour:"white",
+  price:"Thirty-four USD"});
+  instance1.save( function(err,doc) {
+    if(err) return console.error(err);
+    console.log("First object saved")
+  });
+  let instance2 = new hat({hat_name:"Flat Hat", colour:"green",
+  price:"Twenty USD"});
+  instance2.save( function(err,doc) {
+    if(err) return console.error(err);
+    console.log("Second object saved")
+  });
+  let instance3 = new hat({hat_name:"Panama Hat", colour:"blue",
+  price:"Fourty-five USD"});
+  instance3.save( function(err,doc) {
+    if(err) return console.error(err);
+    console.log("Third object saved")
+  });
+  }
+  let reseed = true;
+  if (reseed) { recreateDB();}
+
 
 var app = express();
 
@@ -27,6 +60,7 @@ app.use('/users', usersRouter);
 app.use('/hat', hatRouter);
 app.use('/addmods', addmodsRouter);
 app.use('/selector', selectorRouter);
+app.use('/resource', resourceRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -45,3 +79,11 @@ app.use(function(err, req, res, next) {
 });
 
 module.exports = app;
+
+//Get the default connection 
+var db = mongoose.connection; 
+ 
+//Bind connection to error event  
+db.on('error', console.error.bind(console, 'MongoDB connection error:')); 
+db.once("open", function(){ 
+ console.log("Connection to DB succeeded")}); 
