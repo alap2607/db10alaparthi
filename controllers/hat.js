@@ -2,8 +2,8 @@ var hat = require('../models/hat');
 // List of all hat
 exports.hat_list = async function(req, res) {
     try{
-        thehats = await hat.find();
-        res.send(thehats);
+        thehat = await hat.find();
+        res.send(thehat);
     }
     catch(err){
         res.status(500)
@@ -13,18 +13,16 @@ exports.hat_list = async function(req, res) {
 };
 
 // for a specific hat.
-exports.hat_detail = async function(req, res) {
-    console.log("detail" + req.params.id)
-    try {
-        result = await hat.findById(req.params.id)
-        res.send(result)
+exports.hat_detail = async function(req, res) { 
+    console.log("detail"  + req.params.id) 
+    try { 
+        result = await hat.findById( req.params.id) 
+        res.send(result) 
+    } catch (error) { 
+        res.status(500) 
+        res.send(`{"error": document for id ${req.params.id} not found`); 
     } 
-    catch (error) {
-        res.status(500)
-        res.send(`{"error": document for id ${req.params.id} not found`);
-    }
-
-};
+}; 
 
 // Handle hat create on POST.
 exports.hat_create_post = async function (req, res) {
