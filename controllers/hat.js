@@ -44,40 +44,37 @@ exports.hat_create_post = async function (req, res) {
         res.status(500);
     }
 };
-// Handle hat delete form on DELETE.
-exports.hat_delete = async function(req, res) {
-    console.log("delete " + req.params.id)
-    try {
-        result = await hat.findByIdAndDelete(req.params.id)
-        console.log("Removed " + result)
-        res.send(result)
-    } catch (err) {
-        res.status(500)
-        res.send(`{"error": Error deleting ${err}}`);
-    }
-};
+// Handle hat delete on DELETE. 
+exports.hat_delete = async function(req, res) { 
+    console.log("delete "  + req.params.id) 
+    try { 
+        result = await hat.findByIdAndDelete( req.params.id) 
+        console.log("Removed " + result) 
+        res.send(result) 
+    } catch (err) { 
+        res.status(500) 
+        res.send(`{"error": Error deleting ${err}}`); 
+    } 
+}; 
 //Handle bakery update form on PUT.
-exports.hat_update_put = async function (req, res) {
-    console.log(`update on id ${req.params.id} with body ${JSON.stringify(req.body)}`);
-    try {
-        let toUpdate = await hat.findById(req.params.id);
-        // Do updates of properties
-        if (req.body.hat_name)
-            toUpdate.hat_name = req.body.hat_name;
-        if (req.body.colour)
-            toUpdate.colour = req.body.colour;
-        if (req.body.price)
-            toUpdate.price = req.body.price;
-        let result = await toUpdate.save();
-        console.log("Sucess " + result);
-        res.send(result);
-    }
-    catch (err) {
-        res.status(500);
-        res.send(`{"error": ${err}: Update for id ${req.params.id} failed`);
-    }
-};
-
+exports.hat_update_put = async function(req, res) { 
+    console.log(`update on id ${req.params.id} with body 
+${JSON.stringify(req.body)}`) 
+    try { 
+        let toUpdate = await hat.findById( req.params.id) 
+        // Do updates of properties 
+        if(req.body.hat_name)  toUpdate.hat_name = req.body.hat_name; 
+        if(req.body.colour) toUpdate.colour = req.body.colour; 
+        if(req.body.price) toUpdate.price = req.body.price; 
+        let result = await toUpdate.save(); 
+        console.log("Sucess " + result) 
+        res.send(result) 
+    } catch (err) { 
+        res.status(500) 
+        res.send(`{"error": ${err}: Update for id ${req.params.id} 
+failed`); 
+    } 
+}; 
 // VIEWS
 // Handle a show all view
 exports.hat_view_all_Page = async function (req, res) {
