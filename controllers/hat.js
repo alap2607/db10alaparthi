@@ -88,56 +88,59 @@ exports.hat_view_all_Page = async function (req, res) {
     }
 };
 
-// Handle a show one view with id specified by query
-exports.hat_view_one_Page = async function(req, res) {
-    console.log("single view for id "  + req.query.id)
-    try{
-        result = await hat.findById( req.query.id)
-        res.render('hatdetail', { title: 'hat Detail', toShow: result });
-    }
-    catch(err){
-        res.status(500)
-        res.send(`{'error': '${err}'}`);
-    }
-};
+// Handle a show one view with id specified by query 
+exports.hat_view_one_Page = async function(req, res) { 
+    console.log("single view for id "  + req.query.id) 
+    try{ 
+        result = await hat.findById( req.query.id) 
+        res.render('hatdetail',  
+{ title: 'Hat Detail', toShow: result }); 
+    } 
+    catch(err){ 
+        res.status(500) 
+        res.send(`{'error': '${err}'}`); 
+    } 
+}; 
 
-// Handle building the view for creating a hat.
-// No body, no in path parameter, no query.
-// Does not need to be async
-exports.hat_create_Page = function(req, res) {
-    console.log("create view")
-    try{
-        res.render('hatcreate', { title: 'hat Create'});
-    }
-    catch(err){
-        res.status(500)
-        res.send(`{"error": Error creating ${err}}`); 
-    }
-};
+// Handle building the view for creating a hat. 
+// No body, no in path parameter, no query. 
+// Does not need to be async 
+exports.hat_create_Page =  function(_req, res) { 
+    console.log("create view") 
+    try{ 
+        res.render('hatcreate', { title: 'Hat Create'}); 
+    } 
+    catch(err){ 
+        res.status(500) 
+        res.send(`{'error': '${err}'}`); 
+    } 
+}; 
 
-// Handle building the view for updating a fish.
-// query provides the id
-exports.hat_update_Page =  async function(req, res) {
-    console.log("update view for item "+req.query.id)
-    try{
+// Handle building the view for updating a hat. 
+// query provides the id 
+exports.hat_update_Page =  async function(req, res) { 
+    console.log("update view for item "+req.query.id) 
+    try{ 
         let result = await hat.findById(req.query.id)
         res.render('hatupdate', { title: 'hat Update', toShow: result });
     }
     catch(err){
         res.status(500)
-        
-    }
+        res.send(`{'error': '${err}'}`);
+    } 
 };
 
-// Handle a delete one view with id from query
-exports.hat_delete_Page = async function(req, res) {
-    console.log("Delete view for id "  + req.query.id)
-    try{
-        result = await hat.findById(req.query.id)
-        res.render('hatdelete', { title: 'hat Delete', toShow: result });
-    }
-    catch(err){
-        res.status(500)
-        res.send(`{'error': '${err}'}`);
-    }
-};
+// Handle a delete one view with id from query 
+exports.hat_delete_Page = async function(req, res) { 
+    console.log("Delete view for id "  + req.query.id) 
+    try{ 
+        result = await hat.findById(req.query.id) 
+        res.render('hatdelete', { title: 'hat Delete', toShow: 
+result }); 
+    } 
+    catch(err){ 
+        res.status(500) 
+        res.send(`{'error': '${err}'}`); 
+    } 
+}; 
+ 

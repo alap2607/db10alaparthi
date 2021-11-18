@@ -1,0 +1,44 @@
+extends layout 
+ 
+block content 
+  h1= title 
+ 
+  - let hatid = toShow._id 
+  - let hat_name = toShow.hat_name
+  - let colour = toShow.colour
+  - let price = toShow.price 
+ 
+   
+  div.row(class='mb-2') 
+    div.mr-1 ID is 
+    div #{hatid} 
+  - let actionid = "/resource/hat/" + hatid 
+  form(id='HatForm', action= actionid, method="PUT") 
+    div.form-group 
+        label.hatAttr(for='hat_name') Hat type 
+        input#hat_name(type='text', name='hat_name', value=hat_name ) 
+    div.form-group 
+        label.hatAttr(for='colour') Hat colour 
+        input#colour(type='text', name='colour', value=colour ) 
+    div.form-group 
+        label.hatAttr(for='hatprice') Hat price 
+        input#hatprice(type='text', name='price', value=price ) 
+    input(type="submit") 
+ 
+  script.
+    document.forms['HatForm'].addEventListener('submit', (event) => { 
+      event.preventDefault(); 
+      // TODO do something here to show user that form is being submitted 
+      fetch(event.target.action, { 
+        method: 'PUT',
+        body: new URLSearchParams(new FormData(event.target)) // event.target is the form 
+      }).then((resp) => { 
+        return resp.text(); // or resp.text() or whatever the server sends 
+      }).then((body) => { 
+        alert("Update succeded") 
+        // TODO handle body 
+      }).catch((error) => { 
+        // TODO handle error 
+        alert("Update failed " + error ) 
+      }); 
+    }); 
