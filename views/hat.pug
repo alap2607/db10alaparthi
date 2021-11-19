@@ -2,17 +2,19 @@ extends layout
 
 block content
   h1= title
-  p Welcome to the hat pug
-  div(class="container-fluid")
-        div(class="row")
-            -
-                let hat = results
-            each v,index in hat
-                div(class="col-sm-2" onclick=`buy(${index})`) #{v.hat_name}
-                div(class="col-sm-2" onclick=`buy(${index})`) #{v.colour}
-                div(class="col-sm-2" onclick=`buy(${index})`) #{v.price}
-  script.                
-        function buy(intemNo)
-        {
-              alert(`you purchased Item ${intemNo+1}`)
-        }
+  - let hat = results;
+  script.
+    function buy(x){
+      alert('Purchased Item: ' + x)
+   } 
+  div(class='container-fluid')
+    div(class='row m-1')
+      each m, index in hat
+       - let destination = `dispatch(\"/hat/update?id=${m._id}\")`
+       div(class="row-sm-2", class="m-1") Item #{m.hat_name}(#{m.colour}) is #{m.price}
+        button.btn( class="btn-primary ml-1", onclick= destination) Update
+
+  script. 
+    function dispatch(path){ 
+      window.location.href=path 
+    }
