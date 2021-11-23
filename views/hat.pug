@@ -1,20 +1,25 @@
 extends layout
 
 block content
+  - let create = `dispatch(\"hat/create\")`
+  button.btn(class="btn-primary m1-1", onclick=create) Create
   h1= title
-  - let hat = results;
-  script.
-    function buy(x){
-      alert('Purchased Item: ' + x)
-   } 
-  div(class='container-fluid')
-    div(class='row m-1')
-      each m, index in hat
-       - let destination = `dispatch(\"/hat/update?id=${m._id}\")`
-       div(class="row-sm-2", class="m-1") Item #{m.hat_name}(#{m.colour}) is #{m.price}
-        button.btn( class="btn-primary ml-1", onclick= destination) Update
+  - let hat=results;
+  div(class="container-fluid mt-3")
+   div(class="row m-1")
+    each element in hat
+     - let destination=`buy(\"/hat/update?id=${element._id}\")`
+     - let detail=`buy(\"/hat/detail?id=${element._id}\")`
+     - let del=`buy(\"/hat/delete?id=${element._id}\")`
+     div(class="col-sm-6 bg-secondary m-1 p-3") Hat #{element.Itemname} - #{element.Quantity} - #{element.price}
+      button.btn( class="btn-info ml-2", onclick=destination ) Update
+      button.btn( class="btn-dark ml-2", onclick=detail ) Get Detail
+      button.btn( class="btn-warning ml-2", onclick=del ) Delete
+  
+   script.
+    function buy(path){
+        window.location.href=path
 
-  script. 
-    function dispatch(path){ 
-      window.location.href=path 
-    }
+        //alert(`You purchased Item ${a+1}`)
+      }
+  
